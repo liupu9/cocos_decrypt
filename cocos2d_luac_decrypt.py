@@ -22,10 +22,12 @@ import argparse
 import zipfile
 import xxtea
 
-
+# 解压缩APK文件
 def extract_apk(apkPath, outputDir="output", sign=None, key=None):
+    print("apkPath: {}, outputDir: {}, sign: {}, key: {}".format(apkPath, outputDir, sign, key))
     luacFiles = []
     soFiles = []
+    # cocos支持的cpp和lua两种so文件
     soluaFiles = ['libcocos2dcpp.so', 'libcocos2dlua.so', 'libhellolua.so']
     if os.path.exists(apkPath):
         fileName = os.path.splitext(os.path.basename(apkPath))[0]
@@ -36,6 +38,7 @@ def extract_apk(apkPath, outputDir="output", sign=None, key=None):
         for names in zipFile.namelist():
             zipFile.extract(names, outputDir)
             if os.path.splitext(names)[-1] == '.lua':
+                print("find lua file: {}".format(names))
                 if sign and key:
                     xxtea.decrypt_file(src_file=os.path.join(
                         outputDir, names), key=key, target_file=os.path.join(outputDir, names), sign=sign)
@@ -167,10 +170,10 @@ example:
                         for luac in luacFiles[1:]:
                             xxtea.decrypt_file(luac, k, luac, sign)
                             # print '[-] decrypt success : {}'.format(luac)
-                        print "[*] sign:{} ,key:{}".format(sign, k)
+                        print("[*] sign:{} ,key:{}".format(sign, k))
                         break
                     else:
-                        print '[*] not found KEY,sorry'
+                        print('[*] not found KEY,sorry')
         else:
             exit('not found so file')
 

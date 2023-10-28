@@ -21,8 +21,8 @@ def get_sign(folder_path):
             else:
                 break
     
-    print "use file %s and %s to get sign." %(first_file.replace(folder_path, ""), 
-                                              second_file.replace(folder_path, ""))
+    print("use file %s and %s to get sign." %(first_file.replace(folder_path, ""), 
+                                              second_file.replace(folder_path, "")))
 
     guess_sign1 = ""
     with open(first_file, "rb") as file_obj:
@@ -71,14 +71,14 @@ def get_guess_key_list(may_contain):
     return may_list
 
 def get_key_list(sign, so_path):
-    print "sign: " + sign
+    print("sign: " + sign)
 
     may_contain = get_key_contain(so_path, sign)
     if not may_contain:
-        print "not found plain sign."
+        print("not found plain sign.")
         return []
     
-    print "here is the text may contain key: \n%s\n" %(may_contain)
+    print("here is the text may contain key: \n%s\n" %(may_contain))
 
     key_list = get_guess_key_list(may_contain)
     key_list.remove(sign)

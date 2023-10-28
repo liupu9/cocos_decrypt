@@ -1,6 +1,4 @@
 import struct
-from loguru import logger
- 
  
 def _hexToDecimal(data, offset):
     if offset <= 0:
@@ -16,7 +14,7 @@ def decodeLuaData(data, size):
     v4 = bytearray(data)
     v15 = [0] * 4
     if size > 8 and data[0] == ord('a') and data[1] == ord('b') and data[2] == ord('c') and data[3] == ord('d'):
-        logger.info("find special exts")
+        # print("find special exts")
         v6 = _hexToDecimal(data[4:], 4)
  
         v15[3] = v6

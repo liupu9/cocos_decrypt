@@ -29,6 +29,8 @@
 # This library is free.  You can redistribute it and/or modify it.  
   
 import struct  
+
+from decode import decodeLuaData
   
 _DELTA = 0x9E3779B9  
   
@@ -95,21 +97,23 @@ def decrypt(str, key):
 def decrypt_file(src_file, key, target_file=None, sign=""):
     with open(src_file, "rb") as file_obj:
         cipher_text = file_obj.read()
-        plain_text = cipher_text
+        # plain_text = cipher_text
 
-        sign_text = cipher_text[0:len(sign)]
-        if sign_text == sign:
-            cipher_text = cipher_text[len(sign):]
-            plain_text = decrypt(cipher_text, key)
+        plain_text = decodeLuaData(cipher_text, len(cipher_text))
+        # sign_text = cipher_text[0:len(sign)]
+        # if sign_text == sign:
+        #     cipher_text = cipher_text[len(sign):]
+        #     plain_text = decrypt(cipher_text, key)
 
         if len(plain_text) == 0 and len(cipher_text) > 0:
             return False
         if target_file:
-            with open(target_file, "w") as write_obj:
-                write_obj.write(plain_text.replace("\r\n","\n"))
+            with open(target_file, "wb") as write_obj:
+                #write_obj.write(plain_text.replace("\r\n","\n"))
+                write_obj.write(bytes(plain_text))
                 write_obj.close()
         return True
     return False
 
 if __name__ == "__main__":  
-    print decrypt(encrypt('Hello XXTEA!', '16bytelongstring'), '16bytelongstring')  
+    print(decrypt(encrypt('Hello XXTEA!', '16bytelongstring'), '16bytelongstring')) 
