@@ -39,10 +39,15 @@ def extract_apk(apkPath, outputDir="output", sign=None, key=None):
             zipFile.extract(names, outputDir)
             if os.path.splitext(names)[-1] == '.lua':
                 print("find lua file: {}".format(names))
-                if sign and key:
-                    xxtea.decrypt_file(src_file=os.path.join(
-                        outputDir, names), key=key, target_file=os.path.join(outputDir, names), sign=sign)
+                xxtea.decrypt_file(src_file=os.path.join(
+                    outputDir, names), key=key, target_file=os.path.join(outputDir, names), sign=sign)
                 luacFiles.append(os.path.join(outputDir, names))
+            
+            if os.path.splitext(names)[-1] == '.png':
+                print("find png file: {}".format(names))
+                xxtea.decrypt_pngfile(src_file=os.path.join(
+                    outputDir, names), key=key, target_file=os.path.join(outputDir, names), sign=sign)
+            
             for i in soluaFiles:
                 if i in names:
                     soFiles.append(os.path.join(outputDir, names))
