@@ -35,7 +35,7 @@ def extract_apk(apkPath, outputDir="output", sign=None, key=None):
         zipFile = zipfile.ZipFile(apkPath)
         for names in zipFile.namelist():
             zipFile.extract(names, outputDir)
-            if os.path.splitext(names)[-1] == '.luac':
+            if os.path.splitext(names)[-1] == '.lua':
                 if sign and key:
                     xxtea.decrypt_file(src_file=os.path.join(
                         outputDir, names), key=key, target_file=os.path.join(outputDir, names), sign=sign)
@@ -52,7 +52,7 @@ def extract_apk(apkPath, outputDir="output", sign=None, key=None):
 def decrypt_dir(dir, sign, key):
     for root, dirs, files in os.walk(dir):
         for f in files:
-            if os.path.splitext(f)[-1] == ".luac":
+            if os.path.splitext(f)[-1] == ".lua":
                 xxtea.decrypt_file(src_file=os.path.join(
                     root, f), key=key, target_file=os.path.join(root, f), sign=sign)
 
